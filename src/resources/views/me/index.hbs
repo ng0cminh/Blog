@@ -1,0 +1,133 @@
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Danh sách khóa học</h1>
+        <div class="mb-2">
+            <a href="/me/trash/posts">Thùng rác ({{ deleteCount }})</a>
+        </div>
+
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item active">Danh sách khóa học</li>
+        </ol>
+
+        <div class="mt-4 d-flex align-items-center">
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+            <label class="form-check-label" for="checkbox-all">
+                Chọn tất cả
+            </label>
+            </div>
+
+            <select id="inputState" class="w-25 mx-2 form-control form-control-sm">
+            <option selected>-- Chọn hành động --</option>
+            <option>Xóa</option>
+            </select>
+
+            <button class="disabled btn btn-primary btn-sm">Thực hiện</button>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>STT</th>
+                    <th>Tiêu đề</th>
+                    <th>Slug</th>
+                    <th>Image</th>
+                    <th>Thời gian</th>
+                    <th colspan="2">Thời gian tạo</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each posts}}
+                <tr>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" name="postIds[]" type="checkbox" value="{{this._id}}">
+                    </div>
+                </td>
+                    <td>{{sum @index 1}}</td>
+                    <td>{{this.title}}</td>
+                    <td>{{this.slug}}</td>
+                    <td>{{this.image}}</td>
+                    <td>{{this.createdAt}}</td>
+                    <td>
+                        <a class="me-2" href="/me/{{this._id}}/editPost">Sửa</a>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#deletePost" data-bs-whatever="{{this._id}}">Xóa</a>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td class="text-center" colspan = "7">Bạn chưa đăng bài viết nào.
+                        <a href="/me/newpost">Đăng khóa học</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+</main>
+
+<form name="delete-post-form" method="POST"></form>
+
+<!-- Modal -->
+<div class="modal fade" id="deletePost" tabindex="-1" aria-labelledby="deletePostLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePostLabel">Xóa bài viết</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có thực sự muốn xóa bài viết?
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnDeletePost" class="btn btn-primary">Xóa bài viết</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    var deletePost = document.getElementById('deletePost')
+    var postId;
+    var deletePostForm = document.forms['delete-post-form'];
+    var checkboxAll = document.getElementById('checkbox-all');
+    var postItemCheckboxs = document.querySelectorAll('input[name="postIds[]"]');
+
+    deletePost.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        postId = button.getAttribute('data-bs-whatever')
+    })
+
+    var btnDeletePostt = document.getElementById('btnDeletePost');
+    btnDeletePostt.onclick = function() {
+        deletePostForm.action = '/me/' + postId + '/deletePost?_method=DELETE';
+        deletePostForm.submit();
+    }
+
+    // lắng nghe sự kiện khi check all
+    checkboxAll.onchange = function(e) {
+        let isCheckedAll = e.target.checked;
+        postItemCheckboxs.forEach(postItemCheckbox => {
+            postItemCheckbox.checked = isCheckedAll;
+        })
+    }
+
+    // lắng nghe sự kiện postItemCheckboxs
+    postItemCheckboxs.forEach(postItemCheckbox => {
+        postItemCheckbox.onchange = function(e) {
+            let isCheckedAll = postItemCheckboxs.length === document.querySelectorAll('input[name="postIds[]"]:checked').length
+
+            checkboxAll.checked = isCheckedAll;
+
+        }
+    })
+
+    // create function 
+
+</script>

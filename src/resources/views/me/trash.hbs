@@ -1,0 +1,118 @@
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Bài viết đã xóa</h1>
+            
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item active">Thùng rác</li>
+        </ol>
+        <div>
+            <a href="/me/">Danh sách bài viết</a>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable Example
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tiêu đề</th>
+                            <th>Slug</th>
+                            <th>Image</th>
+                            <th>Pott Status</th>
+                            <th>Thời gian</th>
+                            <th colspan="2">Thời gian tạo</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each posts}}
+                        <tr>
+                            <td>{{sum @index 1}}</td>
+                            <td>{{this.title}}</td>
+                            <td>{{this.slug}}</td>
+                            <td>{{this.image}}</td>
+                            <td>{{this.postStatus}}</td>
+                            <td>{{this.commentStatus}}</td>
+                            <td>{{this.deletedAt}}</td>
+                            <td>
+                                <a href="" class="me-2 btn-restore" data-bs-whatever="{{this._id}}">Khôi phục</a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#deletePost" data-bs-whatever="{{this._id}}">Xóa vĩnh viễn</a>
+                            </td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <td class="text-center" colspan = "7">Thùng rác trống.
+                                <a href="/me">Danh sách khóa học</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<form name="destroy-post-form" method="POST"></form>
+<form name="restore-post-form" method="POST"></form>
+
+<!-- Modal -->
+<div class="modal fade" id="deletePost" tabindex="-1" aria-labelledby="deletePostLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePostLabel">Xóa vĩnh viễn bài viết</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có thực sự muốn xóa bài viết? Bài viết này sẽ không thể khôi phục.
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnDeletePost" class="btn btn-danger">Chắc chắn xóa</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    var deletePost = document.getElementById('deletePost')
+    var postId;
+    var destroyPostForm = document.forms['destroy-post-form'];
+    var restorPostForm = document.forms['restore-post-form'];
+
+
+    var btnRestore = document.querySelectorAll('.btn-restore');
+
+    btnRestore.forEach(btn => {
+        btn.onclick = function(e) {
+            e.preventDefault();
+            postId = btn.getAttribute('data-bs-whatever');
+
+            restorPostForm.action = '/me/' + postId + '/restorePost?_method=PATCH';
+            restorPostForm.submit();
+        }
+    })
+
+
+
+    deletePost.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        postId = button.getAttribute('data-bs-whatever')
+    })
+
+    var btnDeletePostt = document.getElementById('btnDeletePost');
+    btnDeletePostt.onclick = function() {
+        destroyPostForm.action = '/me/' + postId + '/destroyPost?_method=DELETE';
+        destroyPostForm.submit();
+    }
+
+
+</script>

@@ -1,0 +1,78 @@
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">Thêm bài viết mới</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Bài viết mới</li>
+        </ol>
+    {{!-- Form newPost --}}
+    <form action="/me/{{post._id}}/editPost?_method=PUT" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Tiêu đề</label>
+            <input name="title" type="text" class="form-control" id="title" placeholder="Sample title" value="{{post.title}}">
+        </div>
+        <div class="mb-3">
+            <p>Post Status</p>
+            <select name="postStatus" class="form-select" aria-label="postStatus">
+            <option value="active" selected >Kích hoạt</option>
+            <option value="pedding">Chờ duyệt</option>
+            <option value="delete">Thùng rác</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <p>Post Commet Status</p>
+            <div class="form-check">
+            <input name="commentStatus" class="form-check-input" type="radio" value="open" checked>
+            <label class="form-check-label" for="open">
+                Open
+            </label>
+            </div>
+            <div class="form-check">
+            <input name="commentStatus" class="form-check-input" type="radio" value="close">
+            <label class="form-check-label" for="close">
+                Close
+            </label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <p>Featured</p>
+            <div class="form-check">
+                <input name="featured" class="form-check-input" type="checkbox" id="featured" {{#if post.featured}} checked {{/if}}>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Ảnh bài viết</label>
+            <input name="image" type="text" class="form-control" id="image" placeholder="Sample image" value="{{post.image}}">
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Mô tả tóm tắt</label>
+            <textarea name="description" class="form-control" id="description" rows="2">{{post.description}}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Nội dung bài viết</label>
+            <textarea name="content" class="form-control" id="content" rows="5">{{post.content}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+    
+</main>
+
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+	ClassicEditor
+		.create( document.querySelector( '#content' ), {
+            language: 'vi'
+			// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+		} )
+		.then( editor => {
+			window.editor = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+</script>

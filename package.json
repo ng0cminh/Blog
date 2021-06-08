@@ -1,0 +1,48 @@
+{
+  "name": "bsminh",
+  "version": "1.0.0",
+  "description": "BsMinh Site",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon --inspect src/index.js",
+    "watch": "node-sass --watch src/resources/scss --output src/public/css",
+    "beautiful": "prettier --single-quote --trailing-comma all --tab-width 3 --write src/**/*.{js,json,scss}",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng0cminh/BsMinh.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "MinhNV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ng0cminh/BsMinh/issues"
+  },
+  "homepage": "https://github.com/ng0cminh/BsMinh#readme",
+  "lint-staged": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --tab-width 4 --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "int-staged"
+    }
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.12.12",
+    "mongoose-delete": "^0.5.3",
+    "mongoose-slug-generator": "^1.0.4"
+  },
+  "devDependencies": {
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "node-sass": "^6.0.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0"
+  }
+}
