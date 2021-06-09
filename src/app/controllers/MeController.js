@@ -92,6 +92,20 @@ class MeController {
          })
          .catch(next);
    }
+
+   handleFormActions(req, res, next) {
+      switch (req.body.action) {
+         case 'delete':
+            Post.delete({ _id: { $in: req.body.postIds } })
+               .then(() => {
+                  res.redirect('back');
+               })
+               .catch(next);
+            break;
+         default:
+            res.json({ error });
+      }
+   }
 }
 
 module.exports = new MeController();

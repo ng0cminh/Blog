@@ -7,6 +7,8 @@ router.get('/newPost', meController.newPost);
 
 router.post('/newPost', meController.createPost);
 
+router.post('/handle-form-actions', meController.handleFormActions);
+
 // [GET] /me/:id/editPost
 router.get('/:id/editPost', meController.editPost);
 
