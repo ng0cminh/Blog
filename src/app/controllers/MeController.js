@@ -102,8 +102,22 @@ class MeController {
                })
                .catch(next);
             break;
+         case 'restore':
+            Post.restore({ _id: { $in: req.body.postIds } })
+               .then(() => {
+                  res.redirect('back');
+               })
+               .catch(next);
+            break;
+         case 'destroy':
+            Post.deleteMany({ _id: { $in: req.body.postIds } })
+               .then(() => {
+                  res.redirect('back');
+               })
+               .catch(next);
+            break;
          default:
-            res.json({ error });
+            res.redirect('back');
       }
    }
 }

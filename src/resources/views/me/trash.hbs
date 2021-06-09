@@ -9,16 +9,28 @@
         <div>
             <a href="/me/">Danh sách bài viết</a>
         </div>
+        <form method="POST" action="/me/handle-form-actions">
+            <div class="mt-4 d-flex align-items-center">
+                <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+                <label class="form-check-label" for="checkbox-all">
+                    Chọn tất cả
+                </label>
+                </div>
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                DataTable Example
+                <select name="action" id="inputState" class="w-25 mx-2 form-control form-control-sm" required>
+                <option value="" selected>-- Chọn hành động --</option>
+                <option value="restore">Khôi phục</option>
+                <option value="destroy">Xóa vĩnh viễn</option>
+                </select>
+
+                <button class="check-all-submit btn btn-primary btn-sm disabled">Thực hiện</button>
             </div>
-            <div class="card-body">
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>STT</th>
                             <th>Tiêu đề</th>
                             <th>Slug</th>
@@ -32,6 +44,11 @@
                     <tbody>
                         {{#each posts}}
                         <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="postIds[]" type="checkbox" value="{{this._id}}">
+                                </div>
+                            </td>
                             <td>{{sum @index 1}}</td>
                             <td>{{this.title}}</td>
                             <td>{{this.slug}}</td>
@@ -53,8 +70,7 @@
                         {{/each}}
                     </tbody>
                 </table>
-            </div>
-        </div>
+        </form>
     </div>
 </main>
 
@@ -86,6 +102,10 @@
     var destroyPostForm = document.forms['destroy-post-form'];
     var restorPostForm = document.forms['restore-post-form'];
 
+    var checkboxAll = document.getElementById('checkbox-all');
+    var postItemCheckboxs = document.querySelectorAll('input[name="postIds[]"]');
+    var checkAllSubmit = document.querySelector('.check-all-submit');
+
 
     var btnRestore = document.querySelectorAll('.btn-restore');
 
@@ -114,5 +134,48 @@
         destroyPostForm.submit();
     }
 
+    // lắng nghe sự kiện khi check all
+    checkboxAll.onchange = function(e) {
+        let isCheckedAll = e.target.checked;
+        postItemCheckboxs.forEach(postItemCheckbox => {
+            postItemCheckbox.checked = isCheckedAll;
+        })
+        renderCheckAllSubmitBtn()
+    }
+
+    // lắng nghe sự kiện postItemCheckboxs
+    postItemCheckboxs.forEach(postItemCheckbox => {
+        postItemCheckbox.onchange = function(e) {
+            let isCheckedAll = postItemCheckboxs.length === document.querySelectorAll('input[name="postIds[]"]:checked').length
+
+            checkboxAll.checked = isCheckedAll;
+        renderCheckAllSubmitBtn()
+        }
+    })
+    
+    //Lắng nghe sự kiện onclick vào submit all
+
+    checkAllSubmit.onclick = function(e) {
+        
+        var dataAction = document.querySelector('select[name="action"]');
+        if(dataAction.value === 'destroy') {
+            e.preventDefault();
+
+            
+        }
+
+        console.log(dataAction.value)
+    }
+
+    // create function Re-render check all submit button
+    function renderCheckAllSubmitBtn() {
+        let checkCount = document.querySelectorAll('input[name="postIds[]"]:checked').length;
+
+        if(checkCount) {
+            checkAllSubmit.classList.remove('disabled');
+        } else{
+            checkAllSubmit.classList.add('disabled')
+        }
+    }
 
 </script>
