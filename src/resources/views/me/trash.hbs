@@ -24,7 +24,7 @@
                 <option value="destroy">Xóa vĩnh viễn</option>
                 </select>
 
-                <button class="check-all-submit btn btn-primary btn-sm disabled">Thực hiện</button>
+                <button data-bs-toggle="modal" data-bs-target="#deleteManyPost" class="check-all-submit btn btn-primary btn-sm disabled">Thực hiện</button>
             </div>
 
                 <table class="table table-striped">
@@ -77,7 +77,7 @@
 <form name="destroy-post-form" method="POST"></form>
 <form name="restore-post-form" method="POST"></form>
 
-<!-- Modal -->
+<!-- Modal deleteOne -->
 <div class="modal fade" id="deletePost" tabindex="-1" aria-labelledby="deletePostLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -96,8 +96,30 @@
   </div>
 </div>
 
+<!-- Modal deleteMany -->
+<div class="modal fade" id="deleteManyPost" tabindex="-1" aria-labelledby="deleteManyPostLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteManyPostLabel">Xóa vĩnh viễn những bài viết đã chọn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có thực sự muốn xóa những bài viết? Bài viết này sẽ không thể khôi phục.
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btndeleteManyPost" class="btn btn-danger">Chắc chắn xóa</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-    var deletePost = document.getElementById('deletePost')
+    var deletePost = document.getElementById('deletePost');
+    var deleteManyPost = document.getElementById('deleteManyPost');
+
+
     var postId;
     var destroyPostForm = document.forms['destroy-post-form'];
     var restorPostForm = document.forms['restore-post-form'];
@@ -128,8 +150,8 @@
         postId = button.getAttribute('data-bs-whatever')
     })
 
-    var btnDeletePostt = document.getElementById('btnDeletePost');
-    btnDeletePostt.onclick = function() {
+    var btnDeletePosts = document.getElementById('btnDeletePost');
+    btnDeletePosts.onclick = function() {
         destroyPostForm.action = '/me/' + postId + '/destroyPost?_method=DELETE';
         destroyPostForm.submit();
     }
@@ -161,7 +183,12 @@
         if(dataAction.value === 'destroy') {
             e.preventDefault();
 
-            
+            deleteManyPost.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget
+                // Extract info from data-bs-* attributes
+                postId = button.getAttribute('data-bs-whatever')
+            })
         }
 
         console.log(dataAction.value)
