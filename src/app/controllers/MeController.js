@@ -25,6 +25,11 @@ class MeController {
    // [POST] /me/newPost
    createPost(req, res, next) {
       const formData = req.body;
+      if (formData.featured === 'on') {
+         formData.featured = true;
+      } else {
+         formData.featured = false;
+      }
       const post = new Post(formData);
       post
          .save()
