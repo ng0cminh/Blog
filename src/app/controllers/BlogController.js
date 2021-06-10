@@ -7,6 +7,7 @@ class BlogController {
       Promise.all([Post.find({featured: true}),Post.find({featured: false})])
          .then(([featured, post]) => {
             res.render('blog', {
+               title: 'Blog',
                layout: 'blog',
                featureds: arraysToObject.multi(featured),
                posts: arraysToObject.multi(post),
@@ -19,6 +20,7 @@ class BlogController {
       Post.findOne({ slug: req.params.slug })
          .then((post) => {
             res.render('blog/detail', {
+               title: 'Detail',
                layout: 'blog',
                post: arraysToObject.simple(post),
             });

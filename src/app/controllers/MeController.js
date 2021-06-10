@@ -6,6 +6,7 @@ class MeController {
       Promise.all([Post.find(), Post.countDocumentsDeleted()])
          .then(([post, deleteCount]) => {
             res.render('me', {
+               title: 'Danh Sách bài viết',
                layout: 'me',
                deleteCount,
                posts: arraysToObject.multi(post),
@@ -15,7 +16,10 @@ class MeController {
    }
    // [GET] /me/newPost
    newPost(req, res, next) {
-      res.render('me/newPost', { layout: 'me' });
+      res.render('me/newPost', {
+         title: 'Tạo bài viết mới',
+         layout: 'me'
+      });
    }
 
    // [POST] /me/newPost
@@ -33,6 +37,7 @@ class MeController {
       Post.findOne({ _id: req.params.id })
          .then((post) => {
             res.render('me/editPost', {
+               title: 'Sửa bài viết',
                layout: 'me',
                post: arraysToObject.simple(post),
             });
@@ -69,6 +74,7 @@ class MeController {
       Post.findDeleted()
          .then((post) => {
             res.render('me/trash', {
+               title: 'Thùng rác',
                layout: 'me',
                posts: arraysToObject.multi(post),
             });
