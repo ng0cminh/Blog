@@ -3,14 +3,16 @@ const arraysToObject = require('../../utils/mongoose');
 
 class BlogController {
    index(req, res, next) {
-      Post.find({})
-         .then((post) => {
+      
+      Promise.all([Post.find({featured: true}),Post.find({featured: false})])
+         .then(([featured, post]) => {
             res.render('blog', {
                layout: 'blog',
+               featureds: arraysToObject.multi(featured),
                posts: arraysToObject.multi(post),
             });
          })
-         .catch(next);
+         .catch(next)
    }
 
    detail(req, res, next) {
