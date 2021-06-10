@@ -9,7 +9,7 @@
         <div>
             <a href="/me/">Danh sách bài viết</a>
         </div>
-        <form method="POST" action="/me/handle-form-actions">
+        <form name="handleFormActions" method="POST" action="/me/handle-form-actions">
             <div class="mt-4 d-flex align-items-center">
                 <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
@@ -24,7 +24,7 @@
                 <option value="destroy">Xóa vĩnh viễn</option>
                 </select>
 
-                <button data-bs-toggle="modal" data-bs-target="#deleteManyPost" class="check-all-submit btn btn-primary btn-sm disabled">Thực hiện</button>
+                <button class="check-all-submit btn btn-primary btn-sm disabled">Thực hiện</button>
             </div>
 
                 <table class="table table-striped">
@@ -105,7 +105,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Bạn có thực sự muốn xóa những bài viết? Bài viết này sẽ không thể khôi phục.
+        Bạn có thực sự muốn xóa những bài viết này? Bài viết này sẽ không thể khôi phục.
       </div>
       <div class="modal-footer">
         <button type="button" id="btndeleteManyPost" class="btn btn-danger">Chắc chắn xóa</button>
@@ -119,10 +119,10 @@
     var deletePost = document.getElementById('deletePost');
     var deleteManyPost = document.getElementById('deleteManyPost');
 
-
     var postId;
     var destroyPostForm = document.forms['destroy-post-form'];
     var restorPostForm = document.forms['restore-post-form'];
+    var handleFormActions = document.forms['handleFormActions'];
 
     var checkboxAll = document.getElementById('checkbox-all');
     var postItemCheckboxs = document.querySelectorAll('input[name="postIds[]"]');
@@ -179,19 +179,17 @@
 
     checkAllSubmit.onclick = function(e) {
         
-        var dataAction = document.querySelector('select[name="action"]');
+        let dataAction = document.querySelector('select[name="action"]');
         if(dataAction.value === 'destroy') {
             e.preventDefault();
+            var myModal = new bootstrap.Modal(document.getElementById('deleteManyPost'), {})
+            myModal.show();
 
-            deleteManyPost.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
-                var button = event.relatedTarget
-                // Extract info from data-bs-* attributes
-                postId = button.getAttribute('data-bs-whatever')
-            })
+            let btndeleteManyPost = document.getElementById('btndeleteManyPost');
+            btndeleteManyPost.onclick = function() {
+                handleFormActions.submit()
+            }
         }
-
-        console.log(dataAction.value)
     }
 
     // create function Re-render check all submit button
