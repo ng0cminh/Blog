@@ -1,6 +1,6 @@
 <main>
     <div class="container-fluid px-4">
-    <form method="POST" action="/me/handle-form-actions">
+    <form name="handleFormActions" method="POST" action="/me/handle-form-actions">
         <h1 class="mt-4">Danh sách khóa học</h1>
         <div class="mb-2">
             <a href="/me/trash/posts">Thùng rác ({{ deleteCount }})</a>
@@ -91,8 +91,31 @@
   </div>
 </div>
 
+<!-- Modal deleteMany -->
+<div class="modal fade" id="deleteManyPost" tabindex="-1" aria-labelledby="deleteManyPostLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteManyPostLabel">Xóa vĩnh viễn những bài viết đã chọn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có thực sự muốn xóa những bài viết này? Bài viết này sẽ không thể khôi phục.
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btndeleteManyPost" class="btn btn-danger">Chắc chắn xóa</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-    var deletePost = document.getElementById('deletePost')
+    var deletePost = document.getElementById('deletePost');
+    var deleteManyPost = document.getElementById('deleteManyPost');
+    var checkAllSubmit = document.querySelector('.check-all-submit');
+
+
     var postId;
     var deletePostForm = document.forms['delete-post-form'];
     var checkboxAll = document.getElementById('checkbox-all');
@@ -130,6 +153,21 @@
         renderCheckAllSubmitBtn()
         }
     })
+
+    //Lắng nghe sự kiện onclick vào submit all
+    checkAllSubmit.onclick = function(e) {
+        let dataAction = document.querySelector('select[name="action"]');
+        if(dataAction.value === 'delete') {
+            e.preventDefault();
+            var myModal = new bootstrap.Modal(document.getElementById('deleteManyPost'), {})
+            myModal.show();
+
+            let btndeleteManyPost = document.getElementById('btndeleteManyPost');
+            btndeleteManyPost.onclick = function() {
+                handleFormActions.submit()
+            }
+        }
+    }
 
     // create function Re-render check all submit button
     function renderCheckAllSubmitBtn() {
