@@ -1,9 +1,9 @@
 <main>
     <div class="container-fluid px-4">
-    <form name="handleFormActions" method="POST" action="/me/handle-form-actions">
+    <form name="handleFormActions" method="POST" action="/blog/handle-form-actions">
         <h1 class="mt-4">Danh sách khóa học</h1>
         <div class="mb-2">
-            <a href="/me/trash/posts">Thùng rác ({{ deleteCount }})</a>
+            <a href="/blog/trash">Thùng rác ({{ deleteCount }})</a>
         </div>
 
         <ol class="breadcrumb mb-4">
@@ -53,14 +53,14 @@
                     <td>{{this.image}}</td>
                     <td>{{this.createdAt}}</td>
                     <td>
-                        <a class="me-2" href="/me/{{this._id}}/editPost">Sửa</a>
+                        <a class="me-2" href="/blog/{{this._id}}/editPost">Sửa</a>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#deletePost" data-bs-whatever="{{this._id}}">Xóa</a>
                     </td>
                 </tr>
                 {{else}}
                 <tr>
                     <td class="text-center" colspan = "7">Bạn chưa đăng bài viết nào.
-                        <a href="/me/newpost">Đăng khóa học</a>
+                        <a href="/blog/newpost">Đăng khóa học</a>
                     </td>
                 </tr>
                 {{/each}}
@@ -131,7 +131,7 @@
 
     var btnDeletePostt = document.getElementById('btnDeletePost');
     btnDeletePostt.onclick = function() {
-        deletePostForm.action = '/me/' + postId + '/deletePost?_method=DELETE';
+        deletePostForm.action = '/blog/' + postId + '/deletePost?_method=DELETE';
         deletePostForm.submit();
     }
 

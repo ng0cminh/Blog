@@ -16,9 +16,7 @@ const SchemaUser = new Schema(
       email: {
          type: String,
       },
-      status: {
-         type: String,
-      },
+      posts: [{ type: Schema.Types.ObjectId, ref: 'posts' }],
    },
    {
       timestamps: true,

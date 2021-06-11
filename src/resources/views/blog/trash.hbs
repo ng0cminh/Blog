@@ -7,9 +7,9 @@
             <li class="breadcrumb-item active">Thùng rác</li>
         </ol>
         <div>
-            <a href="/me/">Danh sách bài viết</a>
+            <a href="/me">Danh sách bài viết</a>
         </div>
-        <form name="handleFormActions" method="POST" action="/me/handle-form-actions">
+        <form name="handleFormActions" method="POST" action="/blog/handle-form-actions">
             <div class="mt-4 d-flex align-items-center">
                 <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
@@ -135,7 +135,7 @@
             e.preventDefault();
             postId = btn.getAttribute('data-bs-whatever');
 
-            restorPostForm.action = '/me/' + postId + '/restorePost?_method=PATCH';
+            restorPostForm.action = '/blog/' + postId + '/restorePost?_method=PATCH';
             restorPostForm.submit();
         }
     })
@@ -151,7 +151,7 @@
 
     var btnDeletePosts = document.getElementById('btnDeletePost');
     btnDeletePosts.onclick = function() {
-        destroyPostForm.action = '/me/' + postId + '/destroyPost?_method=DELETE';
+        destroyPostForm.action = '/blog/' + postId + '/destroyPost?_method=DELETE';
         destroyPostForm.submit();
     }
 

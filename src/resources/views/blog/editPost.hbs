@@ -5,7 +5,7 @@
             <li class="breadcrumb-item active">Bài viết mới</li>
         </ol>
     {{!-- Form newPost --}}
-    <form action="/me/{{post._id}}/editPost?_method=PUT" method="POST">
+    <form action="/blog/{{post._id}}/editPost?_method=PUT" method="POST">
         <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề</label>
             <input name="title" type="text" class="form-control" id="title" placeholder="Sample title" value="{{post.title}}">
@@ -22,13 +22,13 @@
         <div class="mb-3">
             <p>Post Commet Status</p>
             <div class="form-check">
-            <input name="commentStatus" class="form-check-input" type="radio" value="open" checked>
+            <input name="commentStatus" class="form-check-input" type="radio" value="open" {{#if isComment }}checked{{/if}}>
             <label class="form-check-label" for="open">
                 Open
             </label>
             </div>
             <div class="form-check">
-            <input name="commentStatus" class="form-check-input" type="radio" value="close">
+            <input name="commentStatus" class="form-check-input" type="radio" value="close" {{#unless isComment }}checked{{/unless}}>
             <label class="form-check-label" for="close">
                 Close
             </label>
