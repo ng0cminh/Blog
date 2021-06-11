@@ -30,11 +30,16 @@
                 <tr>
                     <th>#</th>
                     <th>STT</th>
-                    <th>Tiêu đề <i class="bi bi-sort-alpha-down"></i></th>
+                    <th>
+                        Tiêu đề
+                        {{{sortable 'title' _sort}}}
+                    </th>
                     <th>Featured</th>
                     <th>Image</th>
-                    <th>Thời gian <i class="bi bi-sort-alpha-down"></i></th>
-                    <th colspan="2">Thời gian tạo <i class="bi bi-sort-alpha-down"></i></th>
+                    <th colspan="2">
+                        Thời gian tạo
+                        {{{sortable 'createdAt' _sort}}}
+                    </th>
                 </tr>
             </thead>
 

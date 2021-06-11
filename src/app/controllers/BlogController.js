@@ -107,7 +107,6 @@ class BlogController {
          .catch(next);
    }
 
-
    // [PATCH] /blog/:id/restore
    restore(req, res, next) {
       Post.restore({ _id: req.params.id })
@@ -116,7 +115,8 @@ class BlogController {
          })
          .catch(next);
    }
-
+   
+   // [DELETE] /blog/:id/destroy
    destroy(req, res, next) {
       Post.deleteOne({ _id: req.params.id })
          .then(() => {
