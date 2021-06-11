@@ -13,7 +13,7 @@ const handlebars = require('express-handlebars');
 // Import Connect MongoDB
 const db = require('./config/db');
 
-const sortMiddleware = require('./app/middlewares/sortMiddleware.x');
+const sortMiddleware = require('./app/middlewares/sortMiddleware');
 
 // Import Router
 const router = require('./routes');
