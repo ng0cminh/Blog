@@ -29,7 +29,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>STT</th>
+                    <th>
+                        ID
+                        {{{sortable '_id' _sort}}}
+                    </th>
                     <th>
                         Tiêu đề
                         {{{sortable 'title' _sort}}}
@@ -51,7 +54,7 @@
                         <input class="form-check-input" name="postIds[]" type="checkbox" value="{{this._id}}">
                     </div>
                 </td>
-                    <td>{{sum @index 1}}</td>
+                    <td>{{this._id}}</td>
                     <td>{{this.title}}</td>
                     <td>{{this.featured}}</td>
                     <td>{{this.image}}</td>
