@@ -1,5 +1,5 @@
 const Post = require('../models/Post');
-const User = require('../models/User');
+
 const arraysToObject = require('../../utils/mongoose');
 
 class BlogController {
