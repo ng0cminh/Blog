@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 const arraysToObject = require('../../utils/mongoose');
 
 class BlogController {
@@ -49,7 +50,9 @@ class BlogController {
       const post = new Post(formData);
       post
          .save()
-         .then(() => res.redirect('/blog/newPost'))
+         .then(() => {
+            res.redirect('/blog/newPost');
+         })
          .catch(next);
    }
 
