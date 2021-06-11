@@ -2,32 +2,33 @@ const express = require('express');
 const router = express.Router();
 const blogController = require('../app/controllers/BlogController');
 
-// [GET] /me/newPost
-router.get('/newPost', blogController.newPost);
+// [GET] /blog/new
+router.get('/new', blogController.new);
 
-router.post('/newPost', blogController.createPost);
+router.post('/new', blogController.create);
 
 router.post('/handle-form-actions', blogController.handleFormActions);
 
-// [GET] /me/:id/editPost
-router.get('/:id/editPost', blogController.editPost);
+// [GET] /blog/:id/edit
+router.get('/:id/edit', blogController.edit);
 
-// [PUT] /me/:id/editPost
-router.put('/:id/editPost', blogController.updatePost);
+// [PUT] /blog/:id/edit
+router.put('/:id/edit', blogController.update);
 
-// [PATCH] /me/:id/restorePost
-router.patch('/:id/restorePost', blogController.restorePost);
+// [PATCH] /blog/:id/restore
+router.patch('/:id/restore', blogController.restore);
 
-// [DELETE] /me/:id/deletePost
-router.delete('/:id/deletePost', blogController.deletePost);
+// [DELETE] /blog/:id/delete
+router.delete('/:id/delete', blogController.delete);
 
-router.get('/trash', blogController.trashPosts);
+router.get('/trash', blogController.trash);
 
-// [DELETE] /me/:id/deletePost
-router.delete('/:id/destroyPost', blogController.destroyPost);
+// [DELETE] /blog/:id/delete
+router.delete('/:id/destroy', blogController.destroy);
 
 router.get('/:slug', blogController.detail);
-// define the home page route
+
+// [GET] /blog
 router.get('/', blogController.index);
 
 module.exports = router;

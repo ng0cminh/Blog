@@ -18,7 +18,19 @@ class BlogController {
          })
          .catch(next);
    }
-
+   // [GET] /blog/trash
+   trash(req, res, next) {
+      Post.findDeleted()
+         .then((post) => {
+            res.render('blog/trash', {
+               title: 'Thùng rác',
+               layout: 'me',
+               posts: arraysToObject.multi(post),
+            });
+         })
+         .catch(next);
+   }
+   // [GET] /blog/:slug
    detail(req, res, next) {
       Post.findOne({ slug: req.params.slug })
          .then((post) => {
@@ -31,16 +43,16 @@ class BlogController {
          .catch(next);
    }
 
-   // [GET] /blog/newPost
-   newPost(req, res, next) {
-      res.render('blog/newPost', {
+   // [GET] /blog/new
+   new(req, res, next) {
+      res.render('blog/new', {
          title: 'Tạo bài viết mới',
          layout: 'me',
       });
    }
 
-   // [POST] /blog/newPost
-   createPost(req, res, next) {
+   // [POST] /blog/new
+   create(req, res, next) {
       const formData = req.body;
       if (formData.featured === 'on') {
          formData.featured = true;
@@ -51,16 +63,16 @@ class BlogController {
       post
          .save()
          .then(() => {
-            res.redirect('/blog/newPost');
+            res.redirect('/blog/new');
          })
          .catch(next);
    }
 
-   // [GET] /blog/editPost
-   editPost(req, res, next) {
+   // [GET] /blog/edit
+   edit(req, res, next) {
       Post.findOne({ _id: req.params.id })
          .then((post) => {
-            res.render('blog/editPost', {
+            res.render('blog/edit', {
                title: 'Sửa bài viết',
                layout: 'me',
                isComment: post.commentStatus === 'open' ? true : false,
@@ -70,8 +82,8 @@ class BlogController {
          .catch(next);
    }
 
-   // [GET] /blog/editPost
-   updatePost(req, res, next) {
+   // [POST] /blog/edit
+   update(req, res, next) {
       const formData = req.body;
       if (formData.featured === 'on') {
          formData.featured = true;
@@ -86,7 +98,8 @@ class BlogController {
          .catch(next);
    }
 
-   deletePost(req, res, next) {
+   // [DELETE] /blog/:id/deletePost
+   delete(req, res, next) {
       Post.delete({ _id: req.params.id })
          .then(() => {
             res.redirect('back');
@@ -94,21 +107,9 @@ class BlogController {
          .catch(next);
    }
 
-   // [GET] /blog/trash
-   trashPosts(req, res, next) {
-      Post.findDeleted()
-         .then((post) => {
-            res.render('blog/trash', {
-               title: 'Thùng rác',
-               layout: 'me',
-               posts: arraysToObject.multi(post),
-            });
-         })
-         .catch(next);
-   }
 
-   // [PATCH] /blog/:id/restorePost
-   restorePost(req, res, next) {
+   // [PATCH] /blog/:id/restore
+   restore(req, res, next) {
       Post.restore({ _id: req.params.id })
          .then(() => {
             res.redirect('back');
@@ -116,7 +117,7 @@ class BlogController {
          .catch(next);
    }
 
-   destroyPost(req, res, next) {
+   destroy(req, res, next) {
       Post.deleteOne({ _id: req.params.id })
          .then(() => {
             res.redirect('back');

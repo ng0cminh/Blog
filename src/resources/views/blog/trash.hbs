@@ -3,7 +3,7 @@
         <h1 class="mt-4">Bài viết đã xóa</h1>
             
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/me">Dashboard</a></li>
             <li class="breadcrumb-item active">Thùng rác</li>
         </ol>
         <div>
@@ -135,7 +135,7 @@
             e.preventDefault();
             postId = btn.getAttribute('data-bs-whatever');
 
-            restorPostForm.action = '/blog/' + postId + '/restorePost?_method=PATCH';
+            restorPostForm.action = '/blog/' + postId + '/restore?_method=PATCH';
             restorPostForm.submit();
         }
     })
@@ -151,7 +151,7 @@
 
     var btnDeletePosts = document.getElementById('btnDeletePost');
     btnDeletePosts.onclick = function() {
-        destroyPostForm.action = '/blog/' + postId + '/destroyPost?_method=DELETE';
+        destroyPostForm.action = '/blog/' + postId + '/destroy?_method=DELETE';
         destroyPostForm.submit();
     }
 

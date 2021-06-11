@@ -5,7 +5,7 @@
             <li class="breadcrumb-item active">Bài viết mới</li>
         </ol>
     {{!-- Form newPost --}}
-    <form action="/blog/{{post._id}}/editPost?_method=PUT" method="POST">
+    <form action="/blog/{{post._id}}/edit?_method=PUT" method="POST">
         <div class="mb-3">
             <label for="title" class="form-label">Tiêu đề</label>
             <input name="title" type="text" class="form-control" id="title" placeholder="Sample title" value="{{post.title}}">
