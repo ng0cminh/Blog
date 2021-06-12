@@ -5,8 +5,10 @@ const blogController = require('../app/controllers/BlogController');
 // [GET] /blog/new
 router.get('/new', blogController.new);
 
+// [POST] /blog/new
 router.post('/new', blogController.create);
 
+// [POST] /blog/handle-form-actions
 router.post('/handle-form-actions', blogController.handleFormActions);
 
 // [GET] /blog/:id/edit
