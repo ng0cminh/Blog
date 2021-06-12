@@ -7,7 +7,9 @@ const Schema = mongoose.Schema;
 
 const SchemaPost = new Schema(
    {
-      _id: { type: Number },
+      postId: {
+         type: Number,
+      },
       title: {
          type: String,
       },
@@ -44,7 +46,6 @@ const SchemaPost = new Schema(
       },
    },
    {
-      _id: false,
       timestamps: true,
    },
 );
@@ -62,7 +63,7 @@ SchemaPost.query.sortable = function (req) {
 
 // add plugin
 mongoose.plugin(slug);
-SchemaPost.plugin(AutoIncrement);
+SchemaPost.plugin(AutoIncrement, { inc_field: 'postId' });
 SchemaPost.plugin(mongoose_delete, {
    deletedAt: true,
    overrideMethods: 'all',

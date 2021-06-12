@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const SchemaUser = new Schema(
    {
+      userId: {
+         type: Number,
+      },
       name: {
          type: String,
          maxLength: 255,
@@ -16,11 +20,12 @@ const SchemaUser = new Schema(
       email: {
          type: String,
       },
-      posts: [{ type: Schema.Types.ObjectId, ref: 'posts' }],
    },
    {
       timestamps: true,
    },
 );
+
+SchemaComment.plugin(AutoIncrement, { inc_field: 'userId' });
 
 module.exports = new mongoose.model('users', SchemaUser);
