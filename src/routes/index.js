@@ -1,11 +1,14 @@
 const siteRouter = require('./site');
 const meRouter = require('./me');
 const blogRouter = require('./blog');
+const userRouter = require('./user');
 
 function router(app) {
    app.use('/blog', blogRouter);
 
    app.use('/me', meRouter);
+
+   app.use('/', userRouter);
 
    app.use('/', siteRouter);
 

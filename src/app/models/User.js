@@ -7,17 +7,25 @@ const SchemaUser = new Schema(
       userId: {
          type: Number,
       },
-      name: {
+      firstName: {
          type: String,
-         maxLength: 255,
+         maxLength: 50,
+      },
+      lastName: {
+         type: String,
+         maxLength: 50,
+      },
+      userName: {
+         type: String,
+         maxLength: 25,
+      },
+      email: {
+         type: String,
       },
       password: {
          type: String,
       },
       niceName: {
-         type: String,
-      },
-      email: {
          type: String,
       },
    },
@@ -26,6 +34,8 @@ const SchemaUser = new Schema(
    },
 );
 
-SchemaComment.plugin(AutoIncrement, { inc_field: 'userId' });
+// add plugin
+
+SchemaUser.plugin(AutoIncrement, { inc_field: 'userId' });
 
 module.exports = new mongoose.model('users', SchemaUser);
