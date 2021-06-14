@@ -3,7 +3,7 @@ const slug = require('mongoose-slug-generator');
 
 class UserController {
    register(req, res, next) {
-      res.render('register', {
+      res.render('users/register', {
          title: 'Đăng ký',
       });
    }
@@ -27,7 +27,7 @@ class UserController {
    }
 
    login(req, res, next) {
-      res.render('login', {
+      res.render('users/login', {
          title: 'Đăng nhập',
       });
    }
