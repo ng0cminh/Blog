@@ -27,7 +27,7 @@ const SchemaPost = new Schema(
       },
       postStatus: {
          type: String,
-         enum: ['active', 'pedding', 'delete'],
+         enum: ['active', 'pedding', 'timeout'],
       },
       commentStatus: {
          type: String,

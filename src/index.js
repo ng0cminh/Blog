@@ -1,3 +1,4 @@
+require('dotenv').config();
 // Import path library
 const path = require('path');
 

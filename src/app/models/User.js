@@ -7,25 +7,28 @@ const SchemaUser = new Schema(
       userId: {
          type: Number,
       },
-      firstName: {
+      firstname: {
          type: String,
          maxLength: 50,
       },
-      lastName: {
+      lastname: {
          type: String,
          maxLength: 50,
       },
-      userName: {
+      username: {
          type: String,
+         required: true,
          maxLength: 25,
       },
       email: {
          type: String,
+         required: true,
       },
       password: {
          type: String,
+         required: true,
       },
-      niceName: {
+      nicename: {
          type: String,
       },
    },
