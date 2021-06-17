@@ -55,8 +55,8 @@ app.use(sortMiddleware);
 router(app);
 
 // Set and Listen PORT
-app.listen(process.env.DB_PORT, () => {
+app.listen(process.env.PORT, () => {
    console.log(
-      `App listening at http://${process.env.DB_HOST}:${process.env.DB_PORT}`,
+      `App listening at http://${process.env.HOST}:${process.env.PORT}`,
    );
 });
