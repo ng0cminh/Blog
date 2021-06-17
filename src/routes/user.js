@@ -11,4 +11,7 @@ router.post('/register', siteController.createUser);
 // [GET] /login
 router.get('/login', siteController.login);
 
+// [POST] /login
+router.post('/login', siteController.loginValidate);
+
 module.exports = router;
