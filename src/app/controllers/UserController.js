@@ -31,7 +31,7 @@ class UserController {
                   .json({ success: false, message: 'Username already taken' });
             } else {
                // All good
-               const hashedPassword = await argon2.hash('password');
+               const hashedPassword = await argon2.hash(password);
                formData.password = hashedPassword;
                const newUser = new User(formData);
                await newUser.save();
