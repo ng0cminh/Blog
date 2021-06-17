@@ -2,7 +2,7 @@ const siteRouter = require('./site');
 const meRouter = require('./me');
 const blogRouter = require('./blog');
 const userRouter = require('./user');
-const apiRouter = require('./api');
+const apiRouter = require('./auth');
 
 function router(app) {
    app.use('/blog', blogRouter);

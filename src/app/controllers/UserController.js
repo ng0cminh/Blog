@@ -1,5 +1,6 @@
 const User = require('../models/User');
-const slug = require('mongoose-slug-generator');
+const argon2 = require('argon2');
+const jwt = require('jsonwebtoken');
 
 class UserController {
    register(req, res, next) {
@@ -8,21 +9,46 @@ class UserController {
       });
    }
 
-   createUser(req, res, next) {
+async createUser(req, res, next) {
       const formData = req.body;
-      const user = new User(formData);
+      const { username, password } = formData;
 
-      if (formData.password === formData.confirmPassword) {
-         user
-            .save()
-            .then(() => {
-               res.redirect('/login');
-            })
-            .catch(next);
-      } else {
-         res.json({
-            messenger: 'Password và Confirm Password không khớp',
+      // Simple validation
+      if (!username || !password) {
+         return res.status(400).json({
+            success: false,
+            message: 'Missing username and/or password',
          });
+      } else {
+         try {
+            // Check for existing user
+            const user = await User.findOne({ username });
+
+            if (user) {
+               return res
+                  .status(400)
+                  .json({ success: false, message: 'Username already taken' });
+            } else {
+               // All good
+               const hashedPassword = await argon2.hash('password');
+               formData.password = hashedPassword;
+               const newUser = new User(formData);
+               await newUser.save()
+
+               // Return token
+               const accessToken = jwt.sign({ userId: newUser._id }, process.env.ACCESS_TOKEN_SECRET);
+
+               res.json({
+                  
+                  message: "luu duoc",
+                  accessToken: accessToken
+               })
+               
+            }
+            
+         } catch (error) {
+            console.log('khong dang ky duoc thanh vien')
+         }
       }
    }
 
