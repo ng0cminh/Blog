@@ -2,7 +2,7 @@ const express = require('express');
 const argon2 = require('argon2')
 const router = express.Router();
 
-const User = require('../models/User');
+const authController = require('../app/controllers/BlogController');
 
 //@route POST api/auth/register
 //@desc Register user
