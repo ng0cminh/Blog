@@ -1,6 +1,9 @@
-require('dotenv').config();
 // Import path library
 const path = require('path');
+
+require('dotenv').config({
+   path: path.join(__dirname, '/.env'),
+});
 
 // Import express library
 const express = require('express');
@@ -51,8 +54,9 @@ app.use(sortMiddleware);
 // Ussage Router
 router(app);
 
-// Set and Listen ${port}
-const port = 3000;
-app.listen(port, () => {
-   console.log(`App listening at http://localhost:${port}`);
+// Set and Listen PORT
+app.listen(process.env.PORT, () => {
+   console.log(
+      `App listening at http://${process.env.HOST}:${process.env.PORT}`,
+   );
 });

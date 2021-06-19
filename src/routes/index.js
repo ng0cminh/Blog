@@ -2,7 +2,6 @@ const siteRouter = require('./site');
 const meRouter = require('./me');
 const blogRouter = require('./blog');
 const userRouter = require('./user');
-const apiAuth = require('./auth');
 
 function router(app) {
    app.use('/blog', blogRouter);
@@ -10,8 +9,6 @@ function router(app) {
    app.use('/me', meRouter);
 
    app.use('/', userRouter);
-
-   app.use('/api/auth', apiAuth);
 
    app.use('/', siteRouter);
 
