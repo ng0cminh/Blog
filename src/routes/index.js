@@ -8,7 +8,7 @@ function router(app) {
 
    app.use('/me', meRouter);
 
-   app.use('/', userRouter);
+   app.use('/users', userRouter);
 
    app.use('/', siteRouter);
 
