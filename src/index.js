@@ -35,6 +35,7 @@ app.use(
    }),
 );
 app.use(express.json());
+
 app.engine(
    'hbs',
    handlebars({
@@ -55,7 +56,7 @@ app.use(sortMiddleware);
 router(app);
 
 // Set and Listen PORT
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
    console.log(
       `App listening at http://${process.env.HOST}:${process.env.PORT}`,
    );

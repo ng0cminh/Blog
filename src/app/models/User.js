@@ -27,6 +27,12 @@ const SchemaUser = new Schema(
       nicename: {
          type: String,
       },
+      roles: [
+         {
+            type: Schema.Types.ObjectId,
+            ref: 'roles',
+         },
+      ],
    },
    {
       timestamps: true,
