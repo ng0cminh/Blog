@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const blogController = require('../app/controllers/BlogController');
+const verifyToken = require('../app/middlewares/auth')
 
 // [GET] /blog/new
 router.get('/new', blogController.new);

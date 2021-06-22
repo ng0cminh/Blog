@@ -1,7 +1,5 @@
 const { verify } = require('jsonwebtoken');
-const roles = require('../models/Role');
 const User = require('../models/User');
-const users = require('../models/User');
 
 const ROLES = ['user', 'admin', 'moderator'];
 

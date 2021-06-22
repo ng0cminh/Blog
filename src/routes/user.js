@@ -3,6 +3,9 @@ const router = express.Router();
 const authController = require('../app/controllers/AuthController');
 const verifySignUp = require('../app/middlewares/verifySingup');
 
+// [GET] /
+router.get('/', authController.index);
+
 // [GET] /register
 router.get('/register', authController.register);
 

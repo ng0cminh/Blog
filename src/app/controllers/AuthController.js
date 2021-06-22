@@ -4,6 +4,24 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 class AuthController {
+   // [GET] /
+   async index(req, res, next) {
+      try {
+         const user = await User.findById(req.userId)
+         if(!user) {
+            res.redirect('/users/login');
+         } else {
+            res.redirect('/me');
+         }
+
+      } catch (error) {
+         res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+         })
+      }
+   }
+
    // [GET] /users/login
    login(req, res, next) {
       res.render('users/login', {
@@ -73,14 +91,14 @@ class AuthController {
                   message: `password ban nhap khong dung`,
                });
             }
-            var token = jwt.sign(
-               { id: user.id },
+            var accessToken = jwt.sign(
+               { userId: user.id },
                process.env.ACCESS_TOKEN_SECRET,
                {
                   expiresIn: 86400, // 24 hours
                },
             );
-
+            
             var authorities = [];
 
             for (let i = 0; i < user.roles.length; i++) {
@@ -91,7 +109,7 @@ class AuthController {
                username: user.username,
                email: user.email,
                roles: authorities,
-               accessToken: token,
+               accessToken,
             });
          } else {
             return res.status(404).send({
