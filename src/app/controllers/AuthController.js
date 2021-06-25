@@ -92,7 +92,7 @@ class AuthController {
                });
             }
             var accessToken = jwt.sign(
-               { userId: user.id },
+               { userId: user._id },
                process.env.ACCESS_TOKEN_SECRET,
                {
                   expiresIn: 86400, // 24 hours
