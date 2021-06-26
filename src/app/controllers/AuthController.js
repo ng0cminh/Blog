@@ -7,80 +7,95 @@ class AuthController {
    // [GET] /
    async index(req, res, next) {
       try {
-         const user = await User.findById(req.userId)
+         const user = await User.findById(req.userId);
 
-         if(!user) {
+         if (!user) {
             res.redirect('/users/login');
          } else {
             res.redirect('/me');
          }
-
       } catch (error) {
          res.status(500).json({
             success: false,
-            message: 'Internal server error'
-         })
+            message: 'Internal server error',
+         });
       }
    }
 
    // [GET] /users/login
    async login(req, res, next) {
       var token = req.cookies.token;
-         if(!token) {
-            return res.render('users/login', {
-               title: 'Đăng nhập',
-            });
-         } else {
-            try {
-               const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-                  if(decoded) {
-                     const userId = decoded.userId;
-                     const user = await User.findById(userId)
-      
-                     if(!user) {
-                        return res.render('users/login', {
-                           title: 'Đăng nhập',
-                        });
-                     } else {
-                        return res.redirect('/me');
-                     }
-                  }else {
-                     return res.render('users/login', {
-                        title: 'Đăng nhập',
-                     });
-                  }
+      if (!token) {
+         return res.render('users/login', {
+            title: 'Đăng nhập',
+         });
+      } else {
+         try {
+            const decoded = await jwt.verify(
+               token,
+               process.env.ACCESS_TOKEN_SECRET,
+            );
+            if (decoded) {
+               const userId = decoded.userId;
+               const user = await User.findById(userId);
 
-               
-      
-            } catch (error) {
-               res.status(500).json({
-                  success: false,
-                  message: 'Internal server error'
-               })
+               if (!user) {
+                  return res.render('users/login', {
+                     title: 'Đăng nhập',
+                  });
+               } else {
+                  return res.redirect('/me');
+               }
+            } else {
+               return res.render('users/login', {
+                  title: 'Đăng nhập',
+               });
             }
+         } catch (error) {
+            res.status(500).json({
+               success: false,
+               message: 'Internal server error',
+            });
          }
+      }
    }
 
    // [GET] /users/register
    async register(req, res, next) {
-      try {
-         const user = await User.findById(req.userId)
+      var token = req.cookies.token;
+      if (!token) {
+         return res.render('users/login', {
+            title: 'Đăng nhập',
+         });
+      } else {
+         try {
+            const decoded = await jwt.verify(
+               token,
+               process.env.ACCESS_TOKEN_SECRET,
+            );
+            if (decoded) {
+               const userId = decoded.userId;
+               const user = await User.findById(userId);
 
-         if(!user) {
-            return res.render('users/register', {
-               title: 'Đăng ký',
+               if (!user) {
+                  return res.render('users/register', {
+                     title: 'Đăng ký',
+                  });
+               } else {
+                  return res.redirect('/me');
+               }
+            } else {
+               return res.render('users/register', {
+                  title: 'Đăng ký',
+               });
+            }
+         } catch (error) {
+            res.status(500).json({
+               success: false,
+               message: 'Internal server error',
             });
-         } else {
-            res.redirect('/me');
          }
-
-      } catch (error) {
-         res.status(500).json({
-            success: false,
-            message: 'Internal server error'
-         })
       }
-
    }
 
    // [POST] /users/register
@@ -145,7 +160,7 @@ class AuthController {
                   expiresIn: 86400, // 24 hours
                },
             );
-            
+
             var authorities = [];
 
             for (let i = 0; i < user.roles.length; i++) {
@@ -153,7 +168,7 @@ class AuthController {
             }
 
             res.cookie('token', accessToken);
-            
+
             res.status(200).send({
                id: user._id,
                username: user.username,

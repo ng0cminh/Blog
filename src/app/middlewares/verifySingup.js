@@ -24,13 +24,13 @@ class VerifySignUp {
             return;
          }
 
-        //  Check password
-        if(req.body.password !== req.body.confirmPassword) {
+         //  Check password
+         if (req.body.password !== req.body.confirmPassword) {
             res.status(400).json({
-                message: 'Password va password nhap lai khong giong nhau',
-             });
+               message: 'Password va password nhap lai khong giong nhau',
+            });
             return;
-        }
+         }
 
          next();
       } catch (error) {
@@ -47,7 +47,7 @@ class VerifySignUp {
                res.status(400).json({
                   message: `ROLE khong ton tai`,
                });
-               return
+               return;
             }
          }
       }

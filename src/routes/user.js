@@ -10,7 +10,11 @@ router.get('/', authController.index);
 router.get('/register', authController.register);
 
 // [POST] /register
-router.post('/register', [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted], authController.signup);
+router.post(
+   '/register',
+   [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted],
+   authController.signup,
+);
 
 // [GET] /login
 router.get('/login', authController.login);

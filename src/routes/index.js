@@ -2,7 +2,7 @@ const siteRouter = require('./site');
 const meRouter = require('./me');
 const blogRouter = require('./blog');
 const userRouter = require('./user');
-const verifyToken = require('../app/middlewares/auth')
+const verifyToken = require('../app/middlewares/auth');
 
 function router(app) {
    app.use('/blog', blogRouter);
