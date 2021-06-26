@@ -20,8 +20,6 @@ const handlebars = require('express-handlebars');
 // Import Connect MongoDB
 const db = require('./config/db');
 
-const sortMiddleware = require('./app/middlewares/sortMiddleware');
-
 // Import Router
 const router = require('./routes');
 
@@ -54,9 +52,6 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Ussage Middlewart
-app.use(sortMiddleware);
 
 // Ussage Router
 router(app);

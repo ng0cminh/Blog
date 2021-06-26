@@ -3,7 +3,7 @@ const Role = require('../models/Role');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-class AuthController {
+class UserController {
    // [GET] /
    async index(req, res, next) {
       try {
@@ -64,7 +64,7 @@ class AuthController {
    async register(req, res, next) {
       var token = req.cookies.token;
       if (!token) {
-         return res.render('users/login', {
+         return res.render('users/register', {
             title: 'Đăng nhập',
          });
       } else {
@@ -98,6 +98,12 @@ class AuthController {
       }
    }
 
+   // [GET] /users/logout
+   logout(req, res, next) {
+      res.cookie('token', '');
+      res.redirect('/');
+   }
+
    // [POST] /users/register
    async signup(req, res, next) {
       const formData = req.body;
@@ -110,10 +116,8 @@ class AuthController {
                formData.roles = roles.map((role) => role._id);
                const user = new User(formData);
                await user.save();
-               res.json({
-                  success: true,
-                  message: user,
-               });
+
+               return res.redirect('/users/login');
             }
          } else {
             const role = await Role.findOne({ name: 'user' });
@@ -122,10 +126,7 @@ class AuthController {
                const user = new User(formData);
                await user.save();
 
-               res.json({
-                  success: true,
-                  message: user,
-               });
+               return res.redirect('/users/login');
             }
          }
       } catch (error) {
@@ -169,13 +170,7 @@ class AuthController {
 
             res.cookie('token', accessToken);
 
-            res.status(200).send({
-               id: user._id,
-               username: user.username,
-               email: user.email,
-               roles: authorities,
-               accessToken,
-            });
+            res.redirect('/me');
          } else {
             return res.status(404).send({
                message: `khong tim duoc username co ten la ${req.body.username}`,
@@ -185,4 +180,4 @@ class AuthController {
    }
 }
 
-module.exports = new AuthController();
+module.exports = new UserController();

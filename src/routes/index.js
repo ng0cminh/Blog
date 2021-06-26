@@ -1,15 +1,21 @@
 const siteRouter = require('./site');
 const meRouter = require('./me');
 const blogRouter = require('./blog');
-const userRouter = require('./user');
-const verifyToken = require('../app/middlewares/auth');
+const usersRouter = require('./users');
+
+const sortMiddleware = require('../app/middlewares/sortMiddleware');
+const verifyLogin = require('../app/middlewares/verifyLogin');
 
 function router(app) {
+   // Ussage Middlewart
+   app.use(sortMiddleware);
+   app.use(verifyLogin);
+
    app.use('/blog', blogRouter);
 
-   app.use('/me', verifyToken, meRouter);
+   app.use('/me', meRouter);
 
-   app.use('/users', userRouter);
+   app.use('/users', usersRouter);
 
    app.use('/', siteRouter);
 
