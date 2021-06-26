@@ -38,7 +38,7 @@
                         {{{sortable 'title' _sort}}}
                     </th>
                     <th>Featured</th>
-                    <th>Image</th>
+                    <th>Tác giả</th>
                     <th colspan="2">
                         Thời gian tạo
                         {{{sortable 'createdAt' _sort}}}
@@ -57,7 +57,7 @@
                     <td>{{this.postId}}</td>
                     <td>{{this.title}}</td>
                     <td>{{this.featured}}</td>
-                    <td>{{this.image}}</td>
+                    <td>{{this.user.username}}</td>
                     <td>{{this.createdAt}}</td>
                     <td>
                         <a class="me-2" href="/blog/{{this._id}}/edit">Sửa</a>

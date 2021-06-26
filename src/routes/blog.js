@@ -11,11 +11,7 @@ router.get('/new', auth.isUser, blogController.new);
 router.post('/new', auth.isUser, blogController.create);
 
 // [POST] /blog/handle-form-actions
-router.post(
-   '/handle-form-actions',
-   auth.isAdmin,
-   blogController.handleFormActions,
-);
+router.post('/handle-form-actions', blogController.handleFormActions);
 
 // [GET] /blog/:id/edit
 router.get('/:id/edit', auth.isUser, blogController.edit);

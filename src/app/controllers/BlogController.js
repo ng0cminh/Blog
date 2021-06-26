@@ -1,5 +1,5 @@
 const Post = require('../models/Post');
-
+const User = require('../models/User');
 const arraysToObject = require('../../utils/mongoose');
 
 class BlogController {
@@ -19,16 +19,29 @@ class BlogController {
          .catch(next);
    }
    // [GET] /blog/trash
-   trash(req, res, next) {
-      Post.findDeleted()
-         .then((post) => {
+   async trash(req, res, next) {
+      try {
+         const roles = req.roles;
+         if(roles.includes('admin') || roles.includes('moderator')) {
+           var post = await Post.findDeleted().populate('user')
+         } else {
+            var post = await Post.findDeleted({user: req.userId}).populate('user')
+         }
+         const user = await User.findOne({_id: req.userId})
+
+         if(post) {
             res.render('blog/trash', {
                title: 'Thùng rác',
                layout: 'me',
+               user: arraysToObject.simple(user),
                posts: arraysToObject.multi(post),
             });
-         })
-         .catch(next);
+         }
+
+      } catch (error) {
+         res.status(500).json('loi sever')
+      }
+     
    }
    // [GET] /blog/:slug
    detail(req, res, next) {
@@ -54,6 +67,8 @@ class BlogController {
    // [POST] /blog/new
    create(req, res, next) {
       const formData = req.body;
+      formData.user = req.userId;
+
       if (formData.featured === 'on') {
          formData.featured = true;
       } else {
@@ -70,7 +85,7 @@ class BlogController {
 
    // [GET] /blog/edit
    edit(req, res, next) {
-      Post.findOne({ _id: req.params.id })
+      Post.findOne({ _id: req.params.id})
          .then((post) => {
             res.render('blog/edit', {
                title: 'Sửa bài viết',
@@ -142,11 +157,17 @@ class BlogController {
                .catch(next);
             break;
          case 'destroy':
-            Post.deleteMany({ _id: { $in: req.body.postIds } })
+            const roles = req.roles;
+            if(roles.includes('admin')) {
+               Post.deleteMany({ _id: { $in: req.body.postIds } })
                .then(() => {
                   res.redirect('back');
                })
                .catch(next);
+            }else {
+               res.json('ban khong co quyen')
+            }
+            
             break;
          default:
             res.redirect('back');
