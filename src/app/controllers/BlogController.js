@@ -78,7 +78,7 @@ class BlogController {
       post
          .save()
          .then(() => {
-            res.redirect('/blog/new');
+            res.redirect('/me');
          })
          .catch(next);
    }
