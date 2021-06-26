@@ -11,6 +11,9 @@ const express = require('express');
 // Import methodOverride library
 const methodOverride = require('method-override');
 
+// Import cookieParser library
+const cookieParser = require('cookie-parser')
+
 // Import express handlebars
 const handlebars = require('express-handlebars');
 
@@ -26,6 +29,9 @@ const app = express();
 
 // override with the X-HTTP-Method-Override header in the request
 app.use(methodOverride('_method'));
+
+// add cookie parser
+app.use(cookieParser())
 
 db.connect();
 

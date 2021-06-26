@@ -8,6 +8,7 @@ class AuthController {
    async index(req, res, next) {
       try {
          const user = await User.findById(req.userId)
+
          if(!user) {
             res.redirect('/users/login');
          } else {
@@ -23,17 +24,63 @@ class AuthController {
    }
 
    // [GET] /users/login
-   login(req, res, next) {
-      res.render('users/login', {
-         title: 'Đăng nhập',
-      });
+   async login(req, res, next) {
+      var token = req.cookies.token;
+         if(!token) {
+            return res.render('users/login', {
+               title: 'Đăng nhập',
+            });
+         } else {
+            try {
+               const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+                  if(decoded) {
+                     const userId = decoded.userId;
+                     const user = await User.findById(userId)
+      
+                     if(!user) {
+                        return res.render('users/login', {
+                           title: 'Đăng nhập',
+                        });
+                     } else {
+                        return res.redirect('/me');
+                     }
+                  }else {
+                     return res.render('users/login', {
+                        title: 'Đăng nhập',
+                     });
+                  }
+
+               
+      
+            } catch (error) {
+               res.status(500).json({
+                  success: false,
+                  message: 'Internal server error'
+               })
+            }
+         }
    }
 
    // [GET] /users/register
-   register(req, res, next) {
-      res.render('users/register', {
-         title: 'Đăng ký',
-      });
+   async register(req, res, next) {
+      try {
+         const user = await User.findById(req.userId)
+
+         if(!user) {
+            return res.render('users/register', {
+               title: 'Đăng ký',
+            });
+         } else {
+            res.redirect('/me');
+         }
+
+      } catch (error) {
+         res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+         })
+      }
+
    }
 
    // [POST] /users/register

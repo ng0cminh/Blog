@@ -1,22 +1,25 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User')
 
-const verifyToken = (req, res, next) => {
-   const authHeader = req.header('Authorization');
-   const token = authHeader && authHeader.split(' ')[1];
+const verifyToken = async (req, res, next) => {
+
+   var token = req.cookies.token;
 
    if (!token) {
-      return res.status(401).json({
-         success: false,
-         message: 'Access token not found',
-      });
+      return res.redirect('/users/login');
    }
 
    try {
-      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+         if(decoded) {
+            req.userId = decoded.userId;
 
-      req.userId = decoded.id;
-      next();
+            next();
+            return
+         }else {
+            res.redirect('/users/login');
+         }
+
    } catch (error) {
       console.log(error);
       return res.status(403).json({
