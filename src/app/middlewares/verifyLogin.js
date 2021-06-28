@@ -32,7 +32,6 @@ module.exports = async function verifyLogin(req, res, next) {
          return;
       }
    } catch (error) {
-      res.cookie('token', '');
       console.log(error);
       return res.status(403).json({
          success: false,
