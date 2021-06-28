@@ -158,7 +158,7 @@ class UserController {
                { userId: user._id },
                process.env.ACCESS_TOKEN_SECRET,
                {
-                  expiresIn: 10, // 1 minute
+                  expiresIn: 60*60*24, //  minute
                },
             );
 

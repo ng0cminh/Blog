@@ -33,6 +33,7 @@ module.exports = async function verifyLogin(req, res, next) {
       }
    } catch (error) {
       console.log(error);
+      res.cookie ('token', '')
       return res.status(403).json({
          success: false,
          message: 'Invalid token',
