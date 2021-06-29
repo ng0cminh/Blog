@@ -2,6 +2,7 @@ const siteRouter = require('./site');
 const meRouter = require('./me');
 const blogRouter = require('./blog');
 const usersRouter = require('./users');
+const categoryRouter = require('./category');
 
 const sortMiddleware = require('../app/middlewares/sortMiddleware');
 const verifyLogin = require('../app/middlewares/verifyLogin');
@@ -12,6 +13,8 @@ function router(app) {
    app.use(verifyLogin);
 
    app.use('/blog', blogRouter);
+
+   app.use('/category', categoryRouter);
 
    app.use('/me', meRouter);
 

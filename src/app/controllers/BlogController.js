@@ -18,6 +18,8 @@ class BlogController {
          })
          .catch(next);
    }
+
+
    // [GET] /blog/trash
    async trash(req, res, next) {
       try {
